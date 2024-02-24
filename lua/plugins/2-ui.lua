@@ -1,33 +1,30 @@
--- User interface
--- Things that make the GUI better.
-
---    Sections:
---       -> alpha-nvim                  [greeter]
---       -> mini.indentscope            [guides]
---       -> heirline-components.nvim    [ui components]
---       -> heirline                    [ui components]
---       -> telescope                   [search]
---       -> telescope-fzf-native.nvim   [search backend]
---       -> smart-splits                [window-dimming]
---       -> dressing.nvim               [better ui elements]
---       -> nvim-web-devicons           [icons | ui]
---       -> lspkind.nvim                [icons | lsp]
---       -> highlight-undo              [highlights]
---       -> which-key                   [on-screen keybinding]
-
 local utils = require "utils"
 local android = vim.fn.isdirectory('/system') == 1 -- true if on android
 
 return {
   {
-    "Almo7aya/gruvbox.nvim",
+    "ellisonleao/gruvbox.nvim",
     lazy = false,
+    priority = 1000,
     config = function()
       require("gruvbox").setup({
-        dim_inactive = true,
         inverse = false,
+        palette_overrides = {
+          dark1 = "#232323",
+          dark2 = "#232323",
+          bright_aqua = "#83a598",
+          bright_green = "#adb026",
+          gray = "#5c6370"
+        },
+        overrides = {
+          Comment = { fg = "#5c6370", italic = true, bold = true },
+          Function = { link = "GruvboxOrangeBold" },
+          Whitespace = { fg = "#4b5263" },
+          BufferCurrent = { bg = "#5c6370" },
+          StatusLine = { fg = "#ebdbb2", bg = "#282828", reverse = false },
+        }
       })
-    end,
+    end
   },
 
   --  [notifications]

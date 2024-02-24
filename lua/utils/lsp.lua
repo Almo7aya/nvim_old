@@ -154,11 +154,11 @@ M.on_attach = function(client, bufnr)
   end
 
   if client.supports_method "textDocument/codeAction" then
-    lsp_mappings.n["<leader>la"] = {
+    lsp_mappings.n["H"] = {
       function() vim.lsp.buf.code_action() end,
       desc = "LSP code action",
     }
-    lsp_mappings.v["<leader>la"] = lsp_mappings.n["<leader>la"]
+    lsp_mappings.v["<leader>la"] = lsp_mappings.n["H"]
   end
 
   if client.supports_method "textDocument/codeLens" then

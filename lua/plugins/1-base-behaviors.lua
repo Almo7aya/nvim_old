@@ -1,22 +1,3 @@
--- Core behaviors
--- Things that add new behaviors.
-
---    Sections:
---       -> project.nvim           [project search + auto cd]
---       -> trim.nvim              [auto trim spaces]
---       -> mini.bufremove         [smart bufdelete]
---       -> smart-splits           [move and resize buffers]
---       -> neotree file browser   [neotree]
---       -> nvim-neoclip           [nvim clipboard]
---       -> vim-matchup            [Improved % motion]
---       -> nvim-autopairs         [auto close brackets]
---       -> lsp_signature.nvim     [auto params help]
---       -> distroupdate.nvim      [distro update]
-
-local windows = vim.fn.has('win32') == 1             -- true if on windows
-local android = vim.fn.isdirectory('/system') == 1   -- true if on android
-
--- configures plugins
 return {
   -- project.nvim [project search + auto cd]
   -- https://github.com/ahmedkhalf/project.nvim
@@ -44,10 +25,10 @@ return {
       manual_mode = false,
 
       -- Don't auto-chdir for specific filetypes.
-      exclude_filetype_chdir = {"", "OverseerList", "alpha"},
+      exclude_filetype_chdir = { "", "OverseerList", "alpha" },
 
       -- Don't auto-chdir for specific buftypes.
-      exclude_buftype_chdir = {"nofile", "terminal"},
+      exclude_buftype_chdir = { "nofile", "terminal" },
 
       --ignore_lsp = { "lua_ls" },
     },
@@ -185,7 +166,7 @@ return {
             if node.type == "directory" or node:has_children() then
               if not node:is_expanded() then -- if unexpanded, expand
                 state.commands.toggle_node(state)
-              else -- if expanded and has children, seleect the next child
+              else                           -- if expanded and has children, seleect the next child
                 require("neo-tree.ui.renderer").focus_node(
                   state,
                   node:get_child_ids()[1]
@@ -250,10 +231,11 @@ return {
         },
         window = {
           width = 30,
+          position = "right",
           mappings = {
             ["<space>"] = false, -- disable space until we figure out which-key disabling
-            ["[b"] = "prev_source",
-            ["]b"] = "next_source",
+            ["J"] = "prev_source",
+            ["K"] = "next_source",
             F = utils.is_available "telescope.nvim" and "find_in_dir" or nil,
             O = "system_open",
             Y = "copy_selector",
@@ -262,6 +244,10 @@ return {
           },
         },
         filesystem = {
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
           follow_current_file = {
             enabled = true,
           },
@@ -283,7 +269,7 @@ return {
   --  By default registers are deleted between sessions.
   {
     "AckslD/nvim-neoclip.lua",
-    requires = { {'nvim-telescope/telescope.nvim'} },
+    requires = { { 'nvim-telescope/telescope.nvim' } },
     config = function() require('neoclip').setup() end,
   },
 
@@ -353,12 +339,13 @@ return {
         handler_opts = round_borders, -- Window style
 
         -- Hint mode
-        hint_enable = false,          -- Display it as hint.
+        hint_enable = false, -- Display it as hint.
         hint_prefix = "👈 "
 
         -- Additionally, you can use <space>ui to toggle inlay hints.
-      } end,
-    config = function(_, opts) require'lsp_signature'.setup(opts) end
+      }
+    end,
+    config = function(_, opts) require 'lsp_signature'.setup(opts) end
   },
 
   -- distroupdate.nvim [distro update]

@@ -70,9 +70,6 @@ local options = {
   },
   g = {
     background = "dark",
-    gruvbox_material_background = "hard",
-    gruvbox_material_better_performance = 1,
-
     mapleader = " ",                                 -- Set leader key.
     maplocalleader = ",",                            -- Set default local leader key.
     big_file = { size = 1024 * 100, lines = 10000 }, -- For files bigger than this, disable 'treesitter'.
