@@ -14,7 +14,7 @@ end
 -- Apply color scheme defined in ./lua/1-options.lua after all modules loaded
 if base.default_colorscheme then
   if not pcall(vim.cmd.colorscheme, base.default_colorscheme) then
-    require("base.utils").notify(
+    require("utils").notify(
       "Error setting up colorscheme: " .. base.default_colorscheme,
       vim.log.levels.ERROR
     )

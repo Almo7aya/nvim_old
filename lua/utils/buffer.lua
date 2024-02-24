@@ -105,7 +105,7 @@ function M.move(n)
     end
   end
   vim.t.bufs = bufs       -- set buffers
-  require("base.utils").trigger_event "BufsUpdated"
+  require("utils").trigger_event "BufsUpdated"
   vim.cmd.redrawtabline() -- redraw tabline
 end
 
@@ -138,7 +138,7 @@ end
 ---                      or confirm changes (default: false).
 function M.close(bufnr, force)
   if not bufnr or bufnr == 0 then bufnr = vim.api.nvim_get_current_buf() end
-  if require("base.utils").is_available "mini.bufremove" and M.is_valid(bufnr) and #vim.t.bufs > 1 then
+  if require("utils").is_available "mini.bufremove" and M.is_valid(bufnr) and #vim.t.bufs > 1 then
     if not force and vim.api.nvim_get_option_value("modified", { buf = bufnr }) then
       local bufname = vim.fn.expand "%"
       local empty = bufname == ""
@@ -173,7 +173,7 @@ end
 ---                      or confirm changes (default: false).
 function M.wipe(bufnr, force)
   if force == nil then force = false end
-  if require("base.utils").is_available "mini.bufremove" then
+  if require("utils").is_available "mini.bufremove" then
     M.close(bufnr, force)   -- close buffer(s)
     vim.cmd "silent! close" -- close current window
   else
@@ -222,7 +222,7 @@ end
 
 --- Sort a the buffers in the current tab based on some comparator.
 ---@param compare_func string|function a string of a comparator defined in
----                                    require("base.utils.buffer").comparator
+---                                    require("utils.buffer").comparator
 ---                                    or a custom comparator function.
 ---@param skip_autocmd boolean|nil whether or not to skip triggering
 ---                                BaseBufsUpdated autocmd event.
@@ -235,7 +235,7 @@ function M.sort(compare_func, skip_autocmd)
     local bufs = vim.t.bufs
     table.sort(bufs, compare_func)
     vim.t.bufs = bufs
-    if not skip_autocmd then require("base.utils").trigger_event "BufsUpdated" end
+    if not skip_autocmd then require("utils").trigger_event "BufsUpdated" end
     vim.cmd.redrawtabline()
     return true
   end
@@ -246,7 +246,7 @@ end
 function M.close_tab()
   if #vim.api.nvim_list_tabpages() > 1 then
     vim.t.bufs = nil
-    require("base.utils").trigger_event "BufsUpdated" -- Emit BaseBufsUpdated event
+    require("utils").trigger_event "BufsUpdated" -- Emit BaseBufsUpdated event
     vim.cmd.tabclose()
   end
 end

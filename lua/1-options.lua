@@ -1,7 +1,7 @@
 _G.base = {}
 
 -- Theme
-base.default_colorscheme = "tokyonight-night"
+base.default_colorscheme = "gruvbox"
 
 -- define variables -----------------------------------------------------------
 local options = {

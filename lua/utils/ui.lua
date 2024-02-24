@@ -38,7 +38,7 @@
 --      -> set_indent
 
 local M = {}
-local utils = require("base.utils")
+local utils = require("utils")
 
 local function bool2str(bool) return bool and "on" or "off" end
 
@@ -67,7 +67,7 @@ end
 --- Toggle diagnostics
 function M.toggle_diagnostics()
   vim.g.diagnostics_mode = (vim.g.diagnostics_mode - 1) % 4
-  vim.diagnostic.config(require("base.utils.lsp").diagnostics[vim.g.diagnostics_mode])
+  vim.diagnostic.config(require("utils.lsp").diagnostics[vim.g.diagnostics_mode])
   if vim.g.diagnostics_mode == 0 then
     utils.notify "diagnostics off"
   elseif vim.g.diagnostics_mode == 1 then
@@ -224,7 +224,7 @@ end
 --- Toggle URL/URI syntax highlighting rules
 function M.toggle_url_effect()
   vim.g.url_effect_enabled = not vim.g.url_effect_enabled
-  require("base.utils").set_url_effect()
+  require("utils").set_url_effect()
   utils.notify(string.format("URL effect %s", bool2str(vim.g.url_effect_enabled)))
 end
 

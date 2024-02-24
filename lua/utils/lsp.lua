@@ -15,7 +15,7 @@ local M = {}
 local tbl_contains = vim.tbl_contains
 local tbl_isempty = vim.tbl_isempty
 
-local utils = require "base.utils"
+local utils = require "utils"
 local conditional_func = utils.conditional_func
 local is_available = utils.is_available
 
@@ -133,7 +133,7 @@ end
 ---@param client table The LSP client details when attaching
 ---@param bufnr number The buffer that the LSP client is attaching to
 M.on_attach = function(client, bufnr)
-  local lsp_mappings = require("base.utils").empty_map_table()
+  local lsp_mappings = require("utils").empty_map_table()
 
   lsp_mappings.n["<leader>ld"] = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" }
   lsp_mappings.n["[d"] = { function() vim.diagnostic.goto_prev() end, desc = "Previous diagnostic" }
@@ -235,11 +235,11 @@ M.on_attach = function(client, bufnr)
         end,
       })
       lsp_mappings.n["<leader>uf"] = {
-        function() require("base.utils.ui").toggle_buffer_autoformat() end,
+        function() require("utils.ui").toggle_buffer_autoformat() end,
         desc = "Autoformatting (buffer)",
       }
       lsp_mappings.n["<leader>uF"] = {
-        function() require("base.utils.ui").toggle_autoformat() end,
+        function() require("utils.ui").toggle_autoformat() end,
         desc = "Autoformatting (global)",
       }
     end
@@ -314,7 +314,7 @@ M.on_attach = function(client, bufnr)
     if vim.lsp.inlay_hint then
       if vim.b.inlay_hints_enabled then vim.lsp.inlay_hint(bufnr, true) end
       lsp_mappings.n["<leader>uH"] = {
-        function() require("base.utils.ui").toggle_buffer_inlay_hints(bufnr) end,
+        function() require("utils.ui").toggle_buffer_inlay_hints(bufnr) end,
         desc = "LSP inlay hints (buffer)",
       }
     end
@@ -354,7 +354,7 @@ M.on_attach = function(client, bufnr)
     if vim.g.semantic_tokens_enabled then
       vim.b[bufnr].semantic_tokens_enabled = true
       lsp_mappings.n["<leader>uY"] = {
-        function() require("base.utils.ui").toggle_buffer_semantic_tokens(bufnr) end,
+        function() require("utils.ui").toggle_buffer_semantic_tokens(bufnr) end,
         desc = "LSP semantic highlight (buffer)",
       }
     else
