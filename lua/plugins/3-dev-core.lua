@@ -57,7 +57,7 @@ return {
     opts = {
       auto_install = false, -- Currently bugged. Use [:TSInstall all] and [:TSUpdate all]
       autotag = { enable = true },
-      context_commentstring = { enable = true, enable_autocmd = false },
+      -- context_commentstring = { enable = true, enable_autocmd = false },
       highlight = {
         enable = true,
         disable = function(_, bufnr) return vim.b[bufnr].large_buf end,
@@ -127,6 +127,7 @@ return {
       },
     },
     config = function(_, opts)
+      require('ts_context_commentstring').setup({})
       require("nvim-treesitter.configs").setup(opts)
       vim.cmd ""
     end,
@@ -170,15 +171,15 @@ return {
       local utils = require "utils"
       local get_icon = utils.get_icon
       local signs = {
-        { name = "DiagnosticSignError", text = get_icon "DiagnosticError", texthl = "DiagnosticSignError" },
-        { name = "DiagnosticSignWarn", text = get_icon "DiagnosticWarn", texthl = "DiagnosticSignWarn" },
-        { name = "DiagnosticSignHint", text = get_icon "DiagnosticHint", texthl = "DiagnosticSignHint" },
-        { name = "DiagnosticSignInfo", text = get_icon "DiagnosticInfo", texthl = "DiagnosticSignInfo" },
-        { name = "DapStopped", text = get_icon "DapStopped", texthl = "DiagnosticWarn" },
-        { name = "DapBreakpoint", text = get_icon "DapBreakpoint", texthl = "DiagnosticInfo" },
-        { name = "DapBreakpointRejected", text = get_icon "DapBreakpointRejected", texthl = "DiagnosticError" },
+        { name = "DiagnosticSignError",    text = get_icon "DiagnosticError",        texthl = "DiagnosticSignError" },
+        { name = "DiagnosticSignWarn",     text = get_icon "DiagnosticWarn",         texthl = "DiagnosticSignWarn" },
+        { name = "DiagnosticSignHint",     text = get_icon "DiagnosticHint",         texthl = "DiagnosticSignHint" },
+        { name = "DiagnosticSignInfo",     text = get_icon "DiagnosticInfo",         texthl = "DiagnosticSignInfo" },
+        { name = "DapStopped",             text = get_icon "DapStopped",             texthl = "DiagnosticWarn" },
+        { name = "DapBreakpoint",          text = get_icon "DapBreakpoint",          texthl = "DiagnosticInfo" },
+        { name = "DapBreakpointRejected",  text = get_icon "DapBreakpointRejected",  texthl = "DiagnosticError" },
         { name = "DapBreakpointCondition", text = get_icon "DapBreakpointCondition", texthl = "DiagnosticInfo" },
-        { name = "DapLogPoint", text = get_icon "DapLogPoint", texthl = "DiagnosticInfo" },
+        { name = "DapLogPoint",            text = get_icon "DapLogPoint",            texthl = "DiagnosticInfo" },
       }
 
       for _, sign in ipairs(signs) do
@@ -201,9 +202,10 @@ return {
       end
 
       if vim.g.lsp_round_borders_enabled then
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", silent = true })
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
+          { border = "rounded", silent = true })
         vim.lsp.handlers["textDocument/signatureHelp"] =
-          vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true })
+            vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true })
       end
       local setup_servers = function()
         vim.api.nvim_exec_autocmds("FileType", {})
@@ -232,7 +234,7 @@ return {
       excluded_lsp_clients = {
         "null-ls", "jdtls"
       },
-      grace_period = (60*10),
+      grace_period = (60 * 10),
       wakeup_delay = 3000,
       notifications = false,
       retries = 3,
@@ -275,7 +277,7 @@ return {
           return _.sort_by(
             _.identity,
             _.filter(_.starts_with(arg_lead), require("mason-registry").get_installed_package_names())
-           )
+          )
         end,
       })
       cmd(
@@ -309,23 +311,6 @@ return {
       },
     },
     event = "User BaseFile",
-    opts = function()
-      local nls = require "null-ls"
-      return {
-        sources = {
-          -- You can customize your formatters here.
-          nls.builtins.formatting.beautysh.with {
-            command = "beautysh",
-            args = { "--indent-size=2", "$FILENAME" },
-          },
-          -- TODO: Disable the next feature once this has been merged.
-          -- https://github.com/bash-lsp/bash-language-server/issues/933
-          nls.builtins.code_actions.shellcheck,
-          nls.builtins.diagnostics.shellcheck.with { diagnostics_format = "" },
-        },
-        on_attach = require("utils.lsp").on_attach,
-      }
-    end,
   },
 
   --  neodev.nvim [lsp for nvim lua api]
@@ -369,10 +354,10 @@ return {
       return {
         enabled = function()
           local dap_prompt = utils.is_available "cmp-dap" -- add interoperability with cmp-dap
-            and vim.tbl_contains(
-              { "dap-repl", "dapui_watches", "dapui_hover" },
-              vim.api.nvim_get_option_value("filetype", { buf = 0 })
-            )
+              and vim.tbl_contains(
+                { "dap-repl", "dapui_watches", "dapui_hover" },
+                vim.api.nvim_get_option_value("filetype", { buf = 0 })
+              )
           if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt" and not dap_prompt then return false end
           return vim.g.cmp_enabled
         end,
@@ -474,9 +459,9 @@ return {
         },
         sources = cmp.config.sources {
           { name = "nvim_lsp", priority = 1000 },
-          { name = "luasnip", priority = 750 },
-          { name = "buffer", priority = 500 },
-          { name = "path", priority = 250 },
+          { name = "luasnip",  priority = 750 },
+          { name = "buffer",   priority = 500 },
+          { name = "path",     priority = 250 },
         },
       }
     end,

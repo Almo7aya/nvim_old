@@ -87,6 +87,7 @@ local options = {
     notifications_enabled = true,                                       -- Enable notifications.
     semantic_tokens_enabled = true,                                     -- Enable lsp semantic tokens at start.
     url_effect_enabled = true,                                          -- Highlight URLs with an underline effect.
+    skip_ts_context_commentstring_module = true
   },
   t = vim.t.bufs and vim.t.bufs or { bufs = vim.api.nvim_list_bufs() }, -- initialize buffers for the current tab.
 }
