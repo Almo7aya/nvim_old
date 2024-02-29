@@ -1,7 +1,0 @@
-return {
-  "AstroNvim/AstroNvim",
-  branch = "v4",
-  import = "astronvim.plugins",
-  lazy = false,
-  enabled = false,
-}
